@@ -118,11 +118,6 @@ const Footer = () => {
                   </button>
                 </li>
                 <li>
-                  <Link to="/documentation" className="text-sm text-gray-600 hover:text-sirdash-500 dark:text-gray-400 dark:hover:text-sirdash-400">
-                    Documentation
-                  </Link>
-                </li>
-                <li>
                   <button
                     onClick={scrollToUseCases}
                     className="text-sm text-gray-600 hover:text-sirdash-500 dark:text-gray-400 dark:hover:text-sirdash-400 text-left cursor-pointer"

@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, CheckCircle2, MessageSquare, Users } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { v4 as uuidv4 } from 'uuid';
 
 const BookDemo = () => {
   const { toast } = useToast();
@@ -27,40 +28,20 @@ const BookDemo = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleOpenHubspot = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      // Send data to server endpoint
-      const response = await fetch('http://localhost:3003/api/request-demo', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to submit demo request');
-      }
-      
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      toast({
-        title: "Demo request submitted!",
-        description: "Our team will contact you shortly to schedule a demo.",
-      });
-    } catch (error) {
-      console.error('Error submitting demo request:', error);
-      setIsSubmitting(false);
-      toast({
-        title: "Submission failed",
-        description: "There was a problem submitting your request. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
+    const { email, name } = formData;
+    const firstName = name.split(" ")?.[0] || "";
+    const lastName = name.split(" ")?.[1] || "";
+
+    window.open("https://meetings-eu1.hubspot.com/aatash" + 
+      `?uuid=${uuidv4()}` +
+      `&email=${email}` +
+      `&firstName=${firstName}` +
+      `&lastName=${lastName}`,
+      "_blank"
+    );
+  }
 
   return (
     <section id="demo" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800">
@@ -123,7 +104,7 @@ const BookDemo = () => {
             <Card className="border-2 border-sirdash-100 dark:border-gray-700">
               <CardContent className="pt-6">
                 {!isSubmitted ? (
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form onSubmit={handleOpenHubspot} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label htmlFor="name" className="text-sm font-medium text-gray-700 dark:text-gray-300">

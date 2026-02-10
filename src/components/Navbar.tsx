@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Menu, X, PlaySquare, PlayCircle } from "lucide-react";
+import { Menu, X, PlaySquare } from "lucide-react";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
 
@@ -110,10 +110,7 @@ const Navbar = () => {
           
           <div className="hidden md:flex items-center space-x-4">
             <Button asChild className="bg-sirdash-500 hover:bg-sirdash-600" size="sm">
-              <a href="https://youtu.be/MLAG4v7Aa7g?si=EWXJCIKaNFbjuWsh" target="_blank">
-                <PlayCircle />
-                Short Demo
-              </a>
+              <a href="#demo">Request Demo</a>
             </Button>
           </div>
           
@@ -168,10 +165,7 @@ const Navbar = () => {
             </div>
             <div className="space-y-3">
               <Button asChild className="bg-sirdash-500 hover:bg-sirdash-600 w-full" size="sm">
-                  <a href="https://youtu.be/MLAG4v7Aa7g?si=EWXJCIKaNFbjuWsh" target="_blank">
-                    <PlayCircle />
-                    Short Demo
-                  </a>
+                  <a href="#demo">Request Demo</a>
               </Button>
             </div>
           </div>

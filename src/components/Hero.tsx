@@ -1,5 +1,3 @@
-
-import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BarChart2, Table, Search } from "lucide-react";
 

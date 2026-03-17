@@ -1,12 +1,12 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, LogIn, PlayCircle } from "lucide-react";
+import { Mail, PlayCircle } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useGoogleLogin } from "@react-oauth/google";

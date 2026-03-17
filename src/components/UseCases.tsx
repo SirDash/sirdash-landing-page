@@ -1,7 +1,5 @@
-
-import React from 'react';
 import { Card } from "@/components/ui/card";
-import { BarChart2, LineChart, PieChart, TrendingUp, Users, MessageSquare } from 'lucide-react';
+import { BarChart2, PieChart, TrendingUp, MessageSquare } from 'lucide-react';
 
 const UseCases = () => {
   return (

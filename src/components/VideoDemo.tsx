@@ -1,6 +1,3 @@
-import React from 'react';
-import { Play } from 'lucide-react';
-
 const VideoDemo = () => {
   return (
     <section className="py-16 md:py-24 bg-gradient-to-b from-background to-muted/20">

@@ -1,6 +1,5 @@
 
-import React from 'react';
-import { Table, ShieldCheck, Users, Stars, Target, Compass, Shield } from 'lucide-react';
+import { Table, ShieldCheck, Users, Target, Compass, Shield } from 'lucide-react';
 
 const About = () => {
   return (

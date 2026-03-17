@@ -1,9 +1,6 @@
 
-import React from 'react';
 import { Linkedin, Twitter, Mail } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import Logo from './Logo';
-import { Button } from './ui/button';
 
 const Footer = () => {
   const scrollToDemo = () => {

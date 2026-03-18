@@ -1,5 +1,4 @@
-
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import VideoDemo from '@/components/VideoDemo';

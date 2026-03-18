@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, FileText, Play, Database, Code, HelpCircle, Book, Keyboard, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Documentation = () => {
-  const [activeSection, setActiveSection] = useState('introduction');
-
   const sections = [
     {
       id: 'introduction',
@@ -430,7 +427,7 @@ export OPENAI_API_KEY="[YOUR_API_KEY]"`}
 
         {/* Documentation Sections */}
         <div className="max-w-4xl mx-auto space-y-12">
-          {sections.map((section, index) => {
+          {sections.map((section) => {
             const Icon = section.icon;
             return (
               <section 

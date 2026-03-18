@@ -1,5 +1,3 @@
-
-import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Brain, Link, MessagesSquare, BarChart2, Shield, ShieldCheck, Lock, Server, Database } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";

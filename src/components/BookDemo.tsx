@@ -5,11 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, CheckCircle2, MessageSquare, Users } from 'lucide-react';
-import { useToast } from "@/hooks/use-toast";
 import { v4 as uuidv4 } from 'uuid';
 
 const BookDemo = () => {
-  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,7 +15,7 @@ const BookDemo = () => {
     role: '',
     message: '',
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

@@ -2,40 +2,42 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import type { EmailOtpType } from "@supabase/supabase-js";
 
 const VerifyEmail = () => {
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('token');
+  const token_hash = searchParams.get('token_hash');
+  const type = searchParams.get('type') as EmailOtpType | null;
   const navigate = useNavigate();
-  
+
   const [verificationStatus, setVerificationStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('Verifying your email...');
-  
+
   useEffect(() => {
     const verifyEmail = async () => {
-      if (!token) {
+      if (!token_hash || !type) {
         setVerificationStatus('error');
         setMessage('Invalid verification link. No token provided.');
         return;
       }
-      
+
       try {
-        // In a real application, you would call your backend API
-        // For demonstration, we'll simulate a successful verification after a delay
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // Simulate successful verification
+        const { error } = await supabase.auth.verifyOtp({ token_hash, type });
+
+        if (error) throw error;
+
         setVerificationStatus('success');
         setMessage('Your email has been successfully verified! You can now log in to your account.');
       } catch (error) {
-        console.error('Verification error:', error);
+        const errorMessage = error instanceof Error ? error.message : 'There was a problem verifying your email. The link may have expired or is invalid.';
         setVerificationStatus('error');
-        setMessage('There was a problem verifying your email. The link may have expired or is invalid.');
+        setMessage(errorMessage);
       }
     };
-    
+
     verifyEmail();
-  }, [token]);
+  }, [token_hash, type]);
   
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">

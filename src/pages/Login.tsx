@@ -1,6 +1,6 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
@@ -36,15 +36,26 @@ const Login = () => {
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     setIsSubmitting(true);
     try {
-      console.log("Login attempt with:", data);
-      // In a real application, you would authenticate with a backend here
-      // For now, we'll just simulate a successful login
-      setTimeout(() => {
-        setIsSubmitting(false);
-        navigate("/coming-soon"); // Redirect to coming soon page after successful login
-      }, 1000);
+      const { error } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Sign-in successful",
+        description: "Welcome back!",
+      });
+      navigate("/coming-soon");
     } catch (error) {
-      console.error("Login error:", error);
+      const message = error instanceof Error ? error.message : "Invalid email or password";
+      toast({
+        title: "Sign-in failed",
+        description: message,
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
     }
   };

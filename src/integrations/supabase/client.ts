@@ -8,4 +8,9 @@ if (!supabaseUrl || !supabaseKey) {
   throw new Error('Missing Supabase environment variables. Ensure VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY are set in .env');
 }
 
-export const supabase = createClient<Database>(supabaseUrl, supabaseKey);
+export const supabase = createClient<Database>(supabaseUrl, supabaseKey, {
+  auth: {
+    flowType: 'pkce',
+    detectSessionInUrl: true,
+  },
+});

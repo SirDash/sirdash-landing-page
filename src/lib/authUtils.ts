@@ -75,3 +75,12 @@ export async function handleEmailVerification(
 
   return { success: false, errorMessage: "Invalid verification link. No token provided." };
 }
+
+export function signInWithGoogle() {
+  return supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${globalThis.location.origin}/auth/callback`,
+    },
+  });
+}

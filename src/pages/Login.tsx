@@ -85,7 +85,11 @@ const Login = () => {
         <div className="w-full max-w-md mx-auto space-y-8">
           <div className="text-center">
             <a href="/" className="flex justify-center">
-              <img src="/images/sirdash-logo-circle.svg" alt="SirDash.ai Logo" className="h-16 w-auto" />
+              <img
+                src="/lovable-uploads/36980bbb-084d-4771-ad2a-8202c6f6b624.png"
+                alt="SirDash Logo"
+                className="h-16 w-auto"
+              />
             </a>
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
               Try Our Sandbox

@@ -92,8 +92,8 @@ const Register = () => {
             <div className="text-center">
               <a href="/" className="flex justify-center">
                 <img
-                  src="/images/sirdash-logo-circle.svg"
-                  alt="SirDash.ai Logo"
+                  src="/lovable-uploads/36980bbb-084d-4771-ad2a-8202c6f6b624.png"
+                  alt="SirDash Logo"
                   className="h-16 w-auto"
                 />
               </a>
@@ -206,8 +206,8 @@ const Register = () => {
           <div className="text-center">
             <a href="/" className="flex justify-center">
               <img
-                src="/images/sirdash-logo-circle.svg"
-                alt="SirDash.ai Logo"
+                src="/lovable-uploads/36980bbb-084d-4771-ad2a-8202c6f6b624.png"
+                alt="SirDash Logo"
                 className="h-16 w-auto"
               />
             </a>

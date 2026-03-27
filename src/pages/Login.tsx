@@ -1,6 +1,6 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
@@ -9,8 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, PlayCircle } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useGoogleLogin } from "@react-oauth/google";
 import { useToast } from "@/components/ui/use-toast";
+import { signInWithGoogle } from "@/lib/authUtils";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -36,74 +36,48 @@ const Login = () => {
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     setIsSubmitting(true);
     try {
-      console.log("Login attempt with:", data);
-      // In a real application, you would authenticate with a backend here
-      // For now, we'll just simulate a successful login
-      setTimeout(() => {
-        setIsSubmitting(false);
-        navigate("/coming-soon"); // Redirect to coming soon page after successful login
-      }, 1000);
+      const { error } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Sign-in successful",
+        description: "Welcome back!",
+      });
+      navigate("/coming-soon");
     } catch (error) {
-      console.error("Login error:", error);
+      const message = error instanceof Error ? error.message : "Invalid email or password";
+      toast({
+        title: "Sign-in failed",
+        description: message,
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      setIsGoogleLoading(true);
-      try {
-        console.log('Google OAuth success:', tokenResponse);
-        
-        // Fetch user info from Google using the access token
-        const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: {
-            'Authorization': `Bearer ${tokenResponse.access_token}`
-          }
-        });
-        
-        if (!userInfoResponse.ok) {
-          throw new Error('Failed to fetch user info from Google');
-        }
-        
-        const userInfo = await userInfoResponse.json();
-        console.log('Google user info:', userInfo);
-        
-        // In a real application, you would:
-        // 1. Send this token to your backend to verify
-        // 2. Create or login the user in your system
-        // 3. Set authentication state/cookies
-        
-        toast({
-          title: 'Google Sign-in Successful',
-          description: `Signed in as ${userInfo.email}`,
-        });
-        
-        // Redirect to home page after successful login
-        setTimeout(() => {
-          setIsGoogleLoading(false);
-          navigate('/');
-        }, 1000);
-      } catch (error) {
-        console.error('Google login error:', error);
-        toast({
-          title: 'Sign-in Failed',
-          description: 'There was a problem signing in with Google',
-          variant: 'destructive',
-        });
-        setIsGoogleLoading(false);
-      }
-    },
-    onError: (errorResponse) => {
-      console.error('Google login error:', errorResponse);
+  const handleGoogleLogin = async () => {
+    setIsGoogleLoading(true);
+    try {
+      const { error } = await signInWithGoogle();
+      if (error) throw error;
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "There was a problem signing in with Google";
       toast({
-        title: 'Sign-in Failed',
-        description: 'There was a problem signing in with Google',
-        variant: 'destructive',
+        title: "Sign-in failed",
+        description: message,
+        variant: "destructive",
       });
-    },
-    scope: 'email profile',
-  });
+      setIsGoogleLoading(false);
+    }
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -111,7 +85,11 @@ const Login = () => {
         <div className="w-full max-w-md mx-auto space-y-8">
           <div className="text-center">
             <a href="/" className="flex justify-center">
-              <img src="/images/sirdash-logo-circle.svg" alt="SirDash.ai Logo" className="h-16 w-auto" />
+              <img
+                src="/lovable-uploads/36980bbb-084d-4771-ad2a-8202c6f6b624.png"
+                alt="SirDash Logo"
+                className="h-16 w-auto"
+              />
             </a>
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
               Try Our Sandbox
@@ -129,7 +107,7 @@ const Login = () => {
               <Button 
                 variant="outline" 
                 className="w-full flex items-center justify-center gap-2 border-gray-300"
-                onClick={() => handleGoogleLogin()}
+                onClick={() => void handleGoogleLogin()}
                 disabled={isGoogleLoading}
               >
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">

@@ -1,5 +1,44 @@
 import { supabase } from "@/integrations/supabase/client";
-import type { EmailOtpType } from "@supabase/supabase-js";
+import type { EmailOtpType, User } from "@supabase/supabase-js";
+
+export function profileInitials(user: User): string {
+  const meta = user.user_metadata as Record<string, string | undefined> | undefined;
+  const fullName = meta?.full_name ?? meta?.name;
+  if (fullName?.trim()) {
+    return fullName
+      .trim()
+      .split(/\s+/)
+      .map((part) => part[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+  }
+  const email = user.email ?? "";
+  return (email.slice(0, 2) || "?").toUpperCase();
+}
+
+export function getUserAvatarUrl(user: User): string | undefined {
+  const meta = user.user_metadata as Record<string, string | undefined> | undefined;
+  return meta?.avatar_url ?? meta?.picture;
+}
+
+export async function getSupabaseSessionUser(): Promise<User | null> {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  return session?.user ?? null;
+}
+
+export function subscribeSupabaseAuth(
+  onUser: (user: User | null) => void
+): { unsubscribe: () => void } {
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((_event, session) => {
+    onUser(session?.user ?? null);
+  });
+  return { unsubscribe: () => subscription.unsubscribe() };
+}
 
 const SESSION_CHECK_DELAY_MS = 500;
 
@@ -74,6 +113,10 @@ export async function handleEmailVerification(
   }
 
   return { success: false, errorMessage: "Invalid verification link. No token provided." };
+}
+
+export function signOutSupabase() {
+  return supabase.auth.signOut();
 }
 
 export function signInWithGoogle() {
